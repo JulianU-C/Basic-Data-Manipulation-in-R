@@ -7,6 +7,7 @@ library(ggplot2)
 library(tidyr)
 
 ## 1) Intro to Pipes
+# load tree dataframe, available at Coding Club https://ourcodingclub.github.io/
 trees <- read.csv("trees.csv")
 head(trees)
 
@@ -36,11 +37,9 @@ trees.summary_pipe <- trees %>%
 summ.all <- summarise_all(trees, mean)
 
 # 2b) case_when() -for reclassifying values or factors
-# lets also look at ifelse() because... idk
 vector <- c(1:10)
 # give conditions: if inferior to 5, return A, if not, return B
 ifelse(vector < 5, "A", "B")
-
 # case_when() is a generalization of ifelse() that lets you assign more than two outcomes
 vector2 <- c("What am I?", "A", "B", "C", "D")
 
@@ -50,10 +49,9 @@ case_when(vector2 == "What am I?" ~ "I am the walrus",
           vector2 == "D" ~ "joob")
 
 ## 3) Changing factor levels or create categorical variables
-
-unique(trees$LatinName)  # Shows all the species names
-
-# 3a) Create a new column with the tree genera
+# Shows all the species names
+unique(trees$LatinName) 
+# Create a new column and fill with Genus name
 trees.genus <- trees %>%
   mutate(Genus = case_when(               
     # creates the genus column and specifies conditions
@@ -97,7 +95,8 @@ tree.genus1 <- trees.genus %>%
                              "15 to 20 meters") ~ "Medium", 
                          Height == "20 to 25 meters" ~ "Tall")
                      )
-tree.genus1$Height.cat <- as.factor(tree.genus1$Height.cat)
+tree.genus1$Height.cat <- as.factor(tree.genus1$Height.cat)\
+
 # 3c) Reordering factor levels
 levels(tree.genus1$Height.cat)  # shows default factor levels
 
@@ -107,49 +106,13 @@ tree.genus1$Height.cat <- factor(tree.genus1$Height.cat,
 
 levels(tree.genus1$Height.cat)  # a new order and new names for the levels
 
-## 4) Advanced Piping
-# subset our tree data to fewer genera
+## 4) Subset our tree data to fewer genera
 trees.five <- tree.genus1 %>% 
   filter(Genus %in% c("Acer",
                       "Fraxinus",
                       "Salix",
                       "Aesculus",
                       "Pinus"))
-# map all the trees - i have no idea how to interpret this plot LOL
-(map.all <- ggplot(trees.five) +
-    geom_point(aes(x = Easting, y = Northing,
-                   size = Height.cat, colour = Genus), alpha = 0.5) +
-    theme_bw() +
-    theme(panel.grid = element_blank(),
-          axis.text = element_text(size = 12),
-          legend.text = element_text(size = 12)))
-# ggplot colored the dots according to genus, and to make them bigger or smaller according to tree height factor
-
-# you can also create 5 separate plots for genera, faceting is probably the better option, but this option is available too 
-# do() function allows you to pipe w/n external functions
-tree.plots <- trees.five %>% 
-  group_by(Genus) %>% 
-  do(plots = ggplot(data = .) +
-       geom_point(aes(x = Easting, y = Northing,
-                      size = Height.cat), alpha = 0.5) +
-       theme_bw() +
-       theme(panel.grid = element_blank(),
-             axis.text = element_text(size = 12),
-             legend.text = element_text(size = 12))
-  )
-# look at your cool plots that are difficult to interpret
-tree.plots$plots
-
-# save plots at once -- cool paste() function!
-tree.plots %>%
-  do(.,
-     ggsave(.$plots, filename = paste(getwd(),
-                                      "/", 
-                                      "map-", 
-                                      .$Genus, 
-                                      ".png", 
-                                      sep = ""), 
-            device = "png", height = 12, width = 16, units = "cm"))
 
 
 
