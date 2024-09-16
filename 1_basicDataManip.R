@@ -1,28 +1,26 @@
 ### Tidy data - Coding Club
+A lost of these exampels are from the Coding Club course https://ourcodingclub.github.io/
 
+# load libraries
 library(tidyr)
 library(ggplot2)
 library(dplyr)
-# make sure elongation dataset is loaded (in CC_course_stream1-master dir)
+
+elongation <- #load elongation dataframe here, can get from Coding Club (see above link)
 
 # Convert wide dataframe into longform w/ gather function
 # gather(dataframe, key, value, c(columns to gather))
 elongation_long <- gather(elongation, Year, Length,
                            c(X2007, X2008, X2009,
                              X2010, X2011, X2012))
-# Here's the opposite
+
+# Here's the opposite, convert long form to wide form
 elongation_wide <- spread(elongation_long, Year, Length)
 
 # Here's more useful gather for if you have a lot of columns
 elongation_long2 <- gather(elongation, Year, Length, c(3:8))
 
-# plots
-boxplot(length ~ Year, data = elongation_long,
-        xlab = "Year", ylab = "Elongation (cm)",
-        main = "Annual growth of Empetrum hermaphroditum")
-
-## Lets fuck around w/ dplyr functions
-
+## MANIPULATION WITH dplyr FUNCTIONS
 # 1.Rename variables
 elongation_long <- rename(elongation_long,
                           zone = Zone,
