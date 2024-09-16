@@ -12,9 +12,9 @@ writeFASTA <- file("outputFileName.fasta", "w")
 # iterate through each row in the dataframe
 for (i in 1:nrow(dataFile)) {
   # Write the header line, fastaHeader = column ID with headers
-  cat(dataFile$fastaHeader[i], "\n", file = writeFASTA)
+  cat(paste0(">", dataFile$fastaHeader[i]), "\n", file = writeFASTA, append = TRUE)
   # Write the sequence line, fastaSeqeunce = column ID with seqeunces
-  cat(dataFile$fastaSequence[i], "\n", file = writeFASTA)
+  cat(dataFile$fastaSequence[i], "\n", file = writeFASTA, append = TRUE)
 }
 
 # Close the FASTA file
