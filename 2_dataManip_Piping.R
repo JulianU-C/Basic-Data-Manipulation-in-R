@@ -1,6 +1,6 @@
 ## Efficient data manipulation Coding Club 2 ##
 # Using pipes and dplyr
-# PIPE = ctrl + shift + m
+# PIPE shortcut = ctrl + shift + m
 
 library(dplyr)
 library(ggplot2)
