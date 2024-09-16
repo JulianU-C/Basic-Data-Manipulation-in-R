@@ -1,17 +1,19 @@
+# Do you have a metadata file with sequences in a column and headers in another? Well use this to make a .FASTA file for them
+
 #set your working directory, will become FASTA output directory
-#setwd("csv file location")
+setwd("csv file location")
 
-# Load your CSV file into dataframe
-dataFile <- read.csv("AMPA results all cath.csv")
+# load your CSV file
+dataFile <- read.csv("inputDataSet.csv")
 
-# Open a connection to write the FASTA file
-writeFASTA <- file("AMPA results.fasta", "w")
+# open a connection to write the FASTA file
+writeFASTA <- file("outputFileName.fasta", "w")
 
-# Loop through each row in the dataframe
+# iterate through each row in the dataframe
 for (i in 1:nrow(dataFile)) {
-  # Write the header line
+  # Write the header line, fastaHeader = column ID with headers
   cat(dataFile$fastaHeader[i], "\n", file = writeFASTA)
-  # Write the sequence line
+  # Write the sequence line, fastaSeqeunce = column ID with seqeunces
   cat(dataFile$fastaSequence[i], "\n", file = writeFASTA)
 }
 
