@@ -13,3 +13,5 @@ Basic data manipultation code
     - ifelse and case_when functions
     - reclassifying factors
     - more advanced subsetting
+3. Create a fasta from a csv file
+    - I always need to do this and can never remember 
