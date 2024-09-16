@@ -47,7 +47,8 @@ elong_total <- mutate(elongation,
                         X2010 + X2011 + X2012)
 
 # 4.Group by certain factors to perform operations on chunks of data
-# NOTE: you won't see any visible change to the data frame. It creates an internal grouping structure, which means that every  subsequent function you run on it will use these groups, not the whole dataset
+# NOTE: you won't see any visible change to the data frame. It creates an internal grouping structure
+# which means that every subsequent function you run on it will use these groups, not the whole dataset
 elong_grouped <- group_by(elongation_long, Indiv)
 
 # 5.Summarise data with a range of summary statistics
@@ -61,16 +62,34 @@ summary3 <- summarise(elong_grouped,
                       sd.growth = sd(Length))
 
 # 6.Join data sets based on shared attributes (merging!)
-treatments <- EmpetrumTreatments  # load data
+# load new dataframe
+treatments <- EmpetrumTreatments  
 
+# we'll merge elongation_long dataframe with treatments dataframe
 # don't have to do "Zone" = "Zone" if the column IDs are identical, but just for practice...
 experiment <- left_join(elongation_long, treatments,
                         by = c("Indiv" = "Indiv",
                                "Zone" = "Zone"))
 experiment <- as.data.frame(experiment)
-
 boxplot(Length ~ Treatment, data = experiment)
 
+# 6a. Alternatively, merge two csv files by column headers, need to be identical 
+# Load the data from CSV files
+data1 <- read.csv("dataframe1.csv")
+data2 <- read.csv("metadata.csv")
+
+# Merge data frames
+## Make sure sample identification names are IDENTICAL, here's a way to check
+unique_1 <- (data1$SampleID)
+unique_2 <- (data2$SampleID)
+common_ids <- intersect(unique_1, unique_2)
+print(common_ids)
+
+# merge
+mergedDataFrame <- merge(data1, data2, by = c('SampleID'), all.x = TRUE)
+
+# Save to a new CSV file
+write.csv(mergedDataFrame, "mergedDataFrame.csv", row.names = FALSE)
 
 
 
