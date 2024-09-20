@@ -1,6 +1,9 @@
-## Efficient data manipulation Coding Club 2 ##
+## Inspired by "Efficient data manipulation Coding Club 2" ##
 # Using pipes and dplyr
-# PIPE shortcut = ctrl + shift + m
+# The pipe operator %>% is available in the magrittr package
+# tidyverse pakcages load %>% automatically
+# %>% shortcut = ctrl + shift + m
+# Think of the %>% operator as "and then"
 
 library(dplyr)
 library(ggplot2)
@@ -11,25 +14,23 @@ library(tidyr)
 trees <- read.csv("trees.csv")
 head(trees)
 
-# Let's count the number of trees per species
+# Let's count the number of trees per species (example without %>%)
 # create an internal grouping structure, so that the next function acts on groups separately
 trees.grouped <- group_by(trees, CommonName)
-
 # use length to count the number of rows (trees) for each group (species)
-trees.summary <- summarise(trees.grouped,
-                           count = length(CommonName))
+trees.summary <- summarise(trees.grouped, count = length(CommonName))
 # alternatively w/dplyr
 trees.summary <- tally(trees.grouped)
 
 # this is where piping %>% will change your game, no longer need to create an intermediary dataframe to run the tally function
 # takes object on the left and passes it to the function on the right 
 
-# Let's count the number of trees per species
+# Let's count the number of trees per species (example with %>%)
 trees.summary_pipe <- trees %>%
   group_by(CommonName) %>%
   tally()  # don't need anything because CommonName is passed through the pipe!
 
-# Pipes only work on dataframe objects
+# Pipes only work on dataframe objects!
 
 ## 2) More Functions of dplyr
 
