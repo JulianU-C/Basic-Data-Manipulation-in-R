@@ -82,7 +82,8 @@ tree.genus2 <- trees %>%
   tidyr::separate(LatinName, c ("Genus", "Species"),
                   sep = " ", remove = FALSE) %>% 
   dplyr::select(-Species)
-# we're creating two new columns in a vector (genus name and species name), "sep" refers to the separator, here space between the words, and remove = FALSE means that we want to keep the original column LatinName in the data frame
+# we're creating two new columns in a vector (genus name and species name), "sep" refers to the separator, 
+# here space between the words, and remove = FALSE means that we want to keep the original column LatinName in the data frame
 
 # 3b) another example of reclassifying a factor
 # Height variables beings classified into Short, Medium, and Tall variable
