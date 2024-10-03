@@ -91,5 +91,24 @@ mergedDataFrame <- merge(data1, data2, by = c('SampleID'), all.x = TRUE)
 # Save to a new CSV file
 write.csv(mergedDataFrame, "mergedDataFrame.csv", row.names = FALSE)
 
+## here's another example when I needed to add duplicate values for "Sequence.AMPA" into one column
+## separated by a "|" and into the same row name "transcript_id"
+library(dplyr)
+data1 <- read.csv("AMPAseqs.csv")
+data2 <- read.csv("TableS2.csv")
 
+dataAMPA <- data1 %>% 
+  select(transcript_id, Seqeunce.AMPA) %>% 
+  group_by(transcript_id) %>% 
+  summarise(Sequence.AMPA = paste(Seqeunce.AMPA, collapse = " | "),
+            .groups = "drop")
+
+mergeDataframe <- merge(dataAMPA, data2, by = c("transcript_id"), all = TRUE)
+write.csv(mergeDataframe, "AMPAseqsTableS2.csv", row.names = FALSE)
+# instead of having... 
+#transcript1 AATG
+#transcript1 AAGT 
+#transcript1 AGTG 
+#in multiple rows, I'll have...
+#transcript1 AATG | AAGT | AGTG all in one row
 
