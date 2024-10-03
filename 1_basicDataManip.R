@@ -28,11 +28,13 @@ elongation_long <- rename(elongation_long,
                           year = Year)
 
 # 2.Filter rows and select columns - AKA subset
+# here I'm filtering rows that aren't in zone 2 or 3 or in years 2009-2011
 elong_subset <- filter(elongation_long,
                        Zone %in% c(2, 3),
                        Year %in% c("X2009", "X2010", "X2011"))
-
-elong_no.zone <- dplyr::select(elongation_long, -Zone)
+  # subset by column
+dataSubset <- data1 %>% select(Column1, Column2, Column3)
+  
 # can rename and reorder on the fly!!
 elong_no.zone2 <- dplyr::select(elongation_long,
                                 YEAR = Year,
@@ -83,7 +85,7 @@ unique_2 <- (data2$SampleID)
 common_ids <- intersect(unique_1, unique_2)
 print(common_ids)
 
-# merge
+# merge, 'all = TRUE' will include all columns and rows and fill voids with NA
 mergedDataFrame <- merge(data1, data2, by = c('SampleID'), all.x = TRUE)
 
 # Save to a new CSV file
