@@ -29,12 +29,15 @@ elongation_long <- rename(elongation_long,
 
 # 2.Filter rows and select columns - AKA subset
 # here I'm filtering rows that aren't in zone 2 or 3 or in years 2009-2011
-elong_subset <- filter(elongation_long,
-                       Zone %in% c(2, 3),
-                       Year %in% c("X2009", "X2010", "X2011"))
-  # subset by column
+elong_subset <- filter(elongation_long,  Zone %in% c(2, 3), Year %in% c("X2009", "X2010", "X2011"))
+  # remove rows
+elong_subset <- filter(!((elongation_long,  Zone %in% c(2, 3), Year == "X2012")
+# subset by column
 dataSubset <- data1 %>% select(Column1, Column2, Column3)
-  
+  # OR
+dataSubset <- data1 %>% select(-Column4, -Column5, -Column6)
+
+
 # can rename and reorder on the fly!!
 elong_no.zone2 <- dplyr::select(elongation_long,
                                 YEAR = Year,
@@ -42,9 +45,7 @@ elong_no.zone2 <- dplyr::select(elongation_long,
                                 GROWTH = Length)
 
 # 3.Mutate dataset - create columns
-elong_total <- mutate(elongation,
-                      total.growth = X2007 + X2008 + X2009 +
-                        X2010 + X2011 + X2012)
+elong_total <- mutate(elongation, total.growth = X2007 + X2008 + X2009 + X2010 + X2011 + X2012)
 
 # 4.Group by certain factors to perform operations on chunks of data
 # NOTE: you won't see any visible change to the data frame. It creates an internal grouping structure
