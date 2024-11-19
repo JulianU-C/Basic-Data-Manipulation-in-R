@@ -11,11 +11,11 @@ elongation <- #load elongation dataframe here, can get from Coding Club (see abo
 # gather(dataframe, key, value, c(columns to gather))
 elongation_long <- gather(elongation, Year, Length, c(X2007, X2008, X2009, X2010, X2011, X2012))
 
-# 1a. Here's the opposite, convert long form to wide form
-elongation_wide <- spread(elongation_long, Year, Length)
+  # 1a. Here's the opposite, convert long form to wide form
+  elongation_wide <- spread(elongation_long, Year, Length)
 
-# 1b. Here's more useful gather for if you have a lot of columns
-elongation_long2 <- gather(elongation, Year, Length, c(3:8))
+  # 1b. Here's more useful gather for if you have a lot of columns
+  elongation_long2 <- gather(elongation, Year, Length, c(3:8))
 
 # 2. Remove a character from a column in a dataframe with gsub()
 Data$Column1 <- gsub("Character","", as.character(Data$Column1)
