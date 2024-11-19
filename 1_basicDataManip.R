@@ -1,24 +1,24 @@
 ### Tidy data - Coding Club
 A lost of these exampels are from the Coding Club course https://ourcodingclub.github.io/
-
-# load libraries
+# load libraries and data
 library(tidyr)
 library(ggplot2)
 library(dplyr)
-
 elongation <- #load elongation dataframe here, can get from Coding Club (see above link)
 
-# Convert wide dataframe into longform w/ gather function
+## HELPFUL QUICK FUNCTIONS
+# 1. Convert wide dataframe into longform w/ gather function
 # gather(dataframe, key, value, c(columns to gather))
-elongation_long <- gather(elongation, Year, Length,
-                           c(X2007, X2008, X2009,
-                             X2010, X2011, X2012))
+elongation_long <- gather(elongation, Year, Length, c(X2007, X2008, X2009, X2010, X2011, X2012))
 
-# Here's the opposite, convert long form to wide form
+# 1a. Here's the opposite, convert long form to wide form
 elongation_wide <- spread(elongation_long, Year, Length)
 
-# Here's more useful gather for if you have a lot of columns
+# 1b. Here's more useful gather for if you have a lot of columns
 elongation_long2 <- gather(elongation, Year, Length, c(3:8))
+
+# 2. Remove a character from a column in a dataframe with gsub()
+Data$Column1 <- gsub("Character","", as.character(Data$Column1)
 
 ## MANIPULATION WITH dplyr FUNCTIONS
 # 1.Rename variables
